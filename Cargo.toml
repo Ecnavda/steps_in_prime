@@ -1,0 +1,7 @@
+[package]
+name = "steps_in_prime"
+version = "0.1.0"
+authors = ["samus"]
+edition = "2018"
+
+[dependencies]
