@@ -4,8 +4,52 @@
 // the integers and from those primes identify a consecutive pair that
 // shares the specified "step" between them.
 
+use std::env;
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let g: i32;
+    let m: u64;
+    let n: u64;
+    
+    // Performing an action based on number of arguments passed
+    match args.len() {
+        0 | 1 => {
+            eprintln!("You did not provide any arguments");
+            help();
+        },
+        2 | 3 => {
+            eprintln!("You did not provide enough arguments");
+            help();
+        },
+        4 => {
+            g = match args[2].parse() {
+                Ok(num) => num,
+                Err(e) => {
+                    eprintln!("{}", e);
+                    help();
+                }
+            }  
+
+            m = match args[3].parse() {
+                Ok(num) => num,
+                Err(e) => {
+                    eprintln!("{}", e);
+                    help();
+                }
+            }  
+
+            n = match args[4].parse() {
+                Ok(num) => num,
+                Err(e) => {
+                    eprintln!("{}", e);
+                    help();
+                }
+            }  
+        }
+    }
+
     //TODO accept stdin parameters for g, m, and n
     println!("Hello, world!");
 }
@@ -35,12 +79,25 @@ fn step(g: i32, m: u64, n: u64) -> Option<(u64, u64)> {
 
     // check for step between primes
     // check length of prime_container first
-    if prime_container.len > 0 {
+    let mut return_value: Option<(u64, u64)> = None;
 
+    if prime_container.len() > 0 {
+        for number in 0..prime_container.len() {
+            if number == (prime_container.len() - 1) {
+                return_value =  None;
+            } else {
+                let g_step = prime_container[number + 1] - prime_container[number];
+                if (g_step as i32) == g {
+                    return_value = Some((prime_container[number], prime_container[number + 1]));
+                }
+            }
+        }
+    } else {
+        return_value = None;
     }
+    return_value
+}
 
-    //TODO compare primes from prime_container for the specified
-    // step value
-    // REMINDER: 0..prime_container.len, prime_container[x], prime_container[x + 1]
-
+fn help() {
+    println!("Usage: steps_in_prime <step> <beginning of range> <end of range>");
 }
