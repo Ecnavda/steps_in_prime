@@ -5,13 +5,14 @@
 // shares the specified "step" between them.
 
 use std::env;
+use std::num::ParseIntError;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let g: i32;
-    let m: u64;
-    let n: u64;
+    let step_num: Option<i32>;
+    let first_num: Option<u64>;
+    let second_num: Option<u64>;
     
     // Performing an action based on number of arguments passed
     match args.len() {
@@ -24,34 +25,62 @@ fn main() {
             help();
         },
         4 => {
-            g = match args[2].parse() {
-                Ok(num) => num,
+           step_num= match args[2].parse() {
+                Ok(num) => Some(num),
                 Err(e) => {
-                    eprintln!("{}", e);
+                    eprintln!("Arg 1 error: {}", e);
                     help();
+                    None
                 }
-            }  
-
-            m = match args[3].parse() {
-                Ok(num) => num,
+            };
+            first_num = match args[3].parse() {
+                Ok(num) => Some(num),
                 Err(e) => {
-                    eprintln!("{}", e);
+                    eprintln!("Arg 2 error: {}", e);
                     help();
+                    None
                 }
-            }  
-
-            n = match args[4].parse() {
-                Ok(num) => num,
+            };
+            second_num = match args[4].parse() {
+                Ok(num) => Some(num),
                 Err(e) => {
-                    eprintln!("{}", e);
+                    eprintln!("Arg 3 error: {}", e);
                     help();
+                    None
                 }
-            }  
+            }
+        },
+        _ => {
+            eprintln!("Incorrect arguments");
+            help();
         }
     }
 
-    //TODO accept stdin parameters for g, m, and n
+    // TODO pass g, m, and n to the step function
+    // unwrap the option values
+
+   if let Some(g) = step_num {
+       // Assigned a value to step_numif it exists
+   } else {
+        eprintln!("Arg 1 error. Exiting");
+
+   }
+   if let Some(m) = first_num {
+
+   } else {
+
+   }
+   if let Some(n) = second_num {
+
+   } else {
+
+   }
     println!("Hello, world!");
+}
+
+
+fn parse_input(args: Vec<String>) -> [Result<i32, ParseIntError>, Result<u64, ParseIntError>, Result<u64, ParseIntError>] {
+    
 }
 
 fn step(g: i32, m: u64, n: u64) -> Option<(u64, u64)> {
