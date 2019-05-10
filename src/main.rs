@@ -5,14 +5,14 @@
 // shares the specified "step" between them.
 
 use std::env;
-use std::num::ParseIntError;
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let step_num: Option<i32>;
-    let first_num: Option<u64>;
-    let second_num: Option<u64>;
+    let mut step_num: Option<i32> = None;
+    let mut first_num: Option<u64> = None;
+    let mut second_num: Option<u64> = None;
     
     // Performing an action based on number of arguments passed
     match args.len() {
@@ -25,7 +25,7 @@ fn main() {
             help();
         },
         4 => {
-           step_num= match args[2].parse() {
+            step_num = match args[1].parse() {
                 Ok(num) => Some(num),
                 Err(e) => {
                     eprintln!("Arg 1 error: {}", e);
@@ -33,7 +33,7 @@ fn main() {
                     None
                 }
             };
-            first_num = match args[3].parse() {
+            first_num = match args[2].parse() {
                 Ok(num) => Some(num),
                 Err(e) => {
                     eprintln!("Arg 2 error: {}", e);
@@ -41,7 +41,7 @@ fn main() {
                     None
                 }
             };
-            second_num = match args[4].parse() {
+            second_num = match args[3].parse() {
                 Ok(num) => Some(num),
                 Err(e) => {
                     eprintln!("Arg 3 error: {}", e);
@@ -58,30 +58,43 @@ fn main() {
 
     // TODO pass g, m, and n to the step function
     // unwrap the option values
+    let mut exit_program = false;
+    let mut g: i32 = 0;
+    let mut m: u64 = 0;
+    let mut n: u64 = 0;
 
-   if let Some(g) = step_num {
-       // Assigned a value to step_numif it exists
-   } else {
+    if let Some(num) = step_num {
+        // Assigned a value to step_num if it exists
+        g = num;
+    } else {
         eprintln!("Arg 1 error. Exiting");
+        exit_program = true;
+    }
 
-   }
-   if let Some(m) = first_num {
+    if let Some(num) = first_num {
+        m = num;
+    } else {
+        eprintln!("Arg 2 error. Exiting");
+        exit_program = true;
+    }
 
-   } else {
+    if let Some(num) = second_num {
+        n = num;
+    } else {
+        eprintln!("Arg 3 error. Exiting");
+        exit_program = true;
+    }
 
-   }
-   if let Some(n) = second_num {
-
-   } else {
-
-   }
-    println!("Hello, world!");
+    if exit_program {
+        // Do nothing
+    } else {
+        match step(g, m, n) {
+            Some(x) => println!("{} {}", x.0, x.1),
+            None => println!("Empty?"),
+        };
+    }
 }
 
-
-fn parse_input(args: Vec<String>) -> [Result<i32, ParseIntError>, Result<u64, ParseIntError>, Result<u64, ParseIntError>] {
-    
-}
 
 fn step(g: i32, m: u64, n: u64) -> Option<(u64, u64)> {
     let mut prime_container = Vec::new();
