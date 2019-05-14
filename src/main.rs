@@ -89,8 +89,8 @@ fn main() {
         // Do nothing
     } else {
         match step(g, m, n) {
-            Some(x) => println!("{} {}", x.0, x.1),
-            None => println!("Empty?"),
+            Some(x) => println!("Primes with the correct step between them are {} and {}", x.0, x.1),
+            None => println!("Nothing matched the step"),
         };
     }
 }
@@ -121,23 +121,22 @@ fn step(g: i32, m: u64, n: u64) -> Option<(u64, u64)> {
 
     // check for step between primes
     // check length of prime_container first
-    let mut return_value: Option<(u64, u64)> = None;
 
     if prime_container.len() > 0 {
         for number in 0..prime_container.len() {
             if number == (prime_container.len() - 1) {
-                return_value =  None;
+                // Do nothing because we've reached the end of the loop
             } else {
                 let g_step = prime_container[number + 1] - prime_container[number];
                 if (g_step as i32) == g {
-                    return_value = Some((prime_container[number], prime_container[number + 1]));
+                    return Some((prime_container[number], prime_container[number + 1]));
                 }
             }
         }
     } else {
-        return_value = None;
+        return None;
     }
-    return_value
+    None
 }
 
 fn help() {
