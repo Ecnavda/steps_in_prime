@@ -105,6 +105,8 @@ fn step(g: i32, m: u64, n: u64) -> Option<(u64, u64)> {
             if x % y == 0 {
                 // if y is a factor of x, continue to next iteration
                 // of outer loop
+                
+                // println!("{} is not prime", x);
                 continue 'outer;
             } else {
                 // this will be set to true throughout this loop but
@@ -115,6 +117,7 @@ fn step(g: i32, m: u64, n: u64) -> Option<(u64, u64)> {
             }
         }
         if prime {
+            // println!("{} is prime", x);
             prime_container.push(x);
         }
     }
